@@ -1,0 +1,141 @@
+<?php
+/*
+Model
+=======================================================================
+ */
+public function result($limit = 0, $offset = 0, $show_count = false){
+
+	$offset = ($offset == 0) ? PHP_INT_MAX : $offset;
+	$query = $this->wpdb->prepare( 
+		"SELECT * 
+		FROM ".$this->table->name."
+		ORDER BY id desc
+		LIMIT %d, %d
+		", $limit, $offset
+	);
+
+
+	if( $show_count == true){
+		$this->wpdb->get_results($query, OBJECT);
+		return $this->wpdb->num_rows;
+
+	} else {
+		return $this->wpdb->get_results($query, OBJECT);
+
+	}
+}
+
+
+/* 
+Controller
+=======================================================================
+set query for pagination display*/
+$data['paged_id'] = get_query_var('paged');
+$data['paged_total_query'] = $this->model->result(0,0 ,true);
+$data['paged_per_page'] = 15;
+
+$paged = $data['paged_id'];
+$set_show = $data['paged_per_page'];
+$paged_per_page = $data['paged_per_page'];
+
+if(empty($paged) || ($paged < 1)):
+	$show = 0;
+else:
+	$show = $set_show * $paged;
+endif;
+
+$data['result'] = $this->model->result($show, $paged_per_page);
+
+
+
+/**
+ * [sqb_pagenavi show pagenavi]
+ * @param  [type] $paged_total_query [total query db]
+ * @param  [type] $paged_per_page    [page per post]
+ * @param  [type] $paged_id          [id]
+ * @return [type]                    [print]
+ */
+function sqb_pagenavi($paged_total_query,$paged_per_page, $paged_id) {
+	$pages = '';
+
+	$max = ceil($paged_total_query / $paged_per_page);
+	
+	if (!$current = $paged_id) $current = 1;
+	/*$args['base'] = str_replace(999999999, '%#%', get_pagenum_link(999999999));*/
+	$args['format'] = '?paged=%#%';
+
+	$args['total'] = $max;
+	$args['current'] = $current;
+
+	$total = 1;
+	$args['mid_size'] = 3;
+	$args['end_size'] = 1;
+	$args['prev_text'] = '<<';
+	$args['next_text'] = '>>';
+
+	if ($max > 1) echo '<div class="sqb_pagenavi">';
+	if ($total == 1 && $max > 1) $pages = '<span class="pages">Page ' . $current . ' of ' . $max . '</span>';
+	echo $pages . paginate_links($args);
+	if ($max > 1) echo '</div>';
+}
+
+
+/**
+ * css
+ * 
+ */
+?>
+<style type="text/css">
+ 	/* =========================================================
+pagenavi
+========================================================= */
+
+.sqb_pagenavi {
+	padding: 10px 20px 10px;
+	display:block;
+	clear:both;
+}
+.sqb_pagenavi a ,.sqb_pagenavi span.pages, .sqb_pagenavi span.extend {
+	color:#333333;
+	text-shadow:0px 1px #F6F6F6;
+	padding:6px 9px 6px 9px;
+	border:solid 1px #B6B6B6;
+	box-shadow:0px 1px #EFEFEF;
+	-moz-box-shadow:0px 1px #EFEFEF;
+	-webkit-box-shadow:0px 1px #EFEFEF;
+	background:#E6E6E6;
+	background:-moz-linear-gradient(top,#FFFFFF 1px,#F3F3F3 1px,#E6E6E6);
+	background:-webkit-gradient(linear,0 0,0 100%,color-stop(0.02,#FFFFFF),color-stop(0.02,#F3F3F3),color-stop(1,#E6E6E6));
+	font-size:12px;
+	margin-right:3px;
+	text-decoration:none;
+}
+.sqb_pagenavi a:hover {
+	color:#fff;
+	text-shadow:0px 1px #388DBE;
+	border-color:#3390CA;
+	background:#58B0E7;
+	background:-moz-linear-gradient(top,#B4F6FF 1px,#63D0FE 1px,#58B0E7);
+	background:-webkit-gradient(linear,0 0,0 100%,color-stop(0.02,#B4F6FF),color-stop(0.02,#63D0FE),color-stop(1,#58B0E7));
+	color:#FFFFFF;
+	box-shadow:0px 1px #E7E7E7;
+	-moz-box-shadow:0px 1px #E7E7E7;
+	-webkit-box-shadow:0px 1px #E7E7E7;
+
+}
+.sqb_pagenavi span.current{
+	padding:6px 9px 6px 9px;
+	border:solid 1px #DCDCDC;
+	color:#fff;
+	box-shadow:0px 1px #E7E7E7;
+	-moz-box-shadow:0px 1px #E7E7E7;
+	-webkit-box-shadow:0px 1px #E7E7E7;
+	margin-right:3px;
+	text-shadow:0px 1px #388DBE;
+	border-color:#3390CA;
+	background:#58B0E7;
+	background:-moz-linear-gradient(top,#B4F6FF 1px,#63D0FE 1px,#58B0E7);
+	background:-webkit-gradient(linear,0 0,0 100%,color-stop(0.02,#B4F6FF),color-stop(0.02,#63D0FE),color-stop(1,#58B0E7));
+}
+
+</style>
