@@ -24,7 +24,8 @@ $data = array(
 	sqb()->ntv->url->segment(),
 	$_SERVER["SERVER_PORT"],
 	DIRECTORY_SEPARATOR,
-	sqb()->ntv->bootstrap->v(37)->alert()
+	sqb()->ntv->bootstrap->v(37)->alert(),
+	sqb()->ntv->url->sanitize_title_with_dashes('retert erte dfg dfgdf fd9gd9g9d9 df9gdf fg99')
 );
 header('Content-Type: text/plain');
 print_r($data);

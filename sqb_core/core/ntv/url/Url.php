@@ -6,10 +6,12 @@
  * @email 		<saidqb@gmail.com>
  */
 
-namespace sqb_core\core\ntv;
+namespace sqb_core\core\ntv\url;
+use sqb_core\core\ntv\url AS NSURL;
 
 class Url
 {
+	use NSURL\Slug;
 
 	/**
 	 * [protocol menampilkan prcol http atau https]
