@@ -10,7 +10,7 @@ namespace sqb_core\core\ntv\bootstrap;
 
 class ComponentsV37
 {
-	function alert($alert_name = 'success', $data = 'text alert', $btn_close = true)
+	function alert( $data = 'text alert', $alert_name = 'success', $btn_close = true)
 	{
 		$html = '<div class="alert alert-'.$alert_name.'" role="alert">';
 		$html .= $data;
