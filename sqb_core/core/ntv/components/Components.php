@@ -13,11 +13,5 @@ namespace sqb_core\core\ntv\components;
 */
 class Components
 {
-	public function dateTime(){
-		return date('Y-m-d H:i:s');
-	}
-
-	public function year(){
-		return date('Y');
-	}
+	
 }
