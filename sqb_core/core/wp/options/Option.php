@@ -24,7 +24,7 @@ class Option
  * @param  [string] $name [key field yang disimpan]
  * @return [type]       [data dari database]
  */
-	function get_sqb_options($name){
+	function get_options($name){
 		
 		return get_option( $this->setDefault . $name );
 	}
@@ -35,7 +35,7 @@ class Option
  * @param [string] $value [data yang mau di simpan pada options admin]
  * @param string $type  ['html']
  */
-	function set_sqb_options($name,$value, $type =''){
+	function set_options($name,$value, $type =''){
 
 		if($type == 'html'){
 			$data_val = stripslashes(wp_filter_post_kses(addslashes($value)));
