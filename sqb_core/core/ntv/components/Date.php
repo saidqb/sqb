@@ -12,15 +12,11 @@ namespace sqb_core\core\ntv\components;
 * 
 */
 class Date {
-	var $gmtoffset;
-	var $year;
-	var $month;
-	var $day;
-	var $hour;
-	var $minute;
-	var $second;
-	var $idioma;
-	function __construct(){
+	public $gmtoffset;
+
+	public $idioma;
+	
+	public function __construct(){
 
 		list($this->year, $this->month, $this->day) = explode("-", date("Y-m-d"));
 		list($this->hour, $this->minute, $this->second) = explode(":", date("g:i:s"));
@@ -33,11 +29,9 @@ class Date {
 		list($this->year, $this->month, $this->day) = explode("-", gmdate("Y-m-d"));
 		list($this->hour, $this->minute, $this->second) = explode(":", gmdate("g:i:s"));
 		$this->gmtoffset = 0;
-		$this->idioma='$lang';
+		$this->idioma=$lang;
 	}
-	public function test(){
-		return gmdate("Y-m-d");
-	}
+
 	public function getYear() {
 		return $this->year;
 	}
@@ -150,32 +144,38 @@ class Date {
 			$this->day,
 			$this->year);
 	}
-	public function longDateTimeHuman() {
+	public function longDateTimeHuman($db_date) {
 		/*Returns a date string like "Saturday, November 5, 2005 3:25 PM".*/
-		return date("l, j F, Y g:i A", $this->timestamp());
+		if(empty($db_date)){
+			return date("l, j F, Y g:i A", $this->timestamp());
+		}
+		else {
+			return date("l, j F, Y g:i A", strtotime($db_date));
+		}
 	}
-	public function diaSemana(){
+	public function nameDay(){
 		/*Returns a day string like "Saturday".*/
 		return date("l", $this->timestamp());
 	}
-	public function mes(){
+	public function nameMoth(){
 		/*retorna un string del mes "November".*/
 		return date("F", $this->timestamp());
 	}
-	public function diaSemana_es($diaen){
-		switch($diaen)
+
+	public function nameDayIndo($nameDay){
+		switch($nameDay)
 		{
-			case "Saturday": return("Sábado");break;
-			case "Sunday": return("Domingo");break;
-			case "Monday": return("Lunes");break;
-			case "Tuesday": return("Martes");break;
-			case "Wednesday": return("Miércoles");break;
-			case "Thursday": return("Jueves");break;
-			case "Friday": return("Viernes");break;
+			case "Saturday": return("Sabtu");break;
+			case "Sunday": return("Minggu");break;
+			case "Monday": return("Senin");break;
+			case "Tuesday": return("Selasa");break;
+			case "Wednesday": return("Rabu");break;
+			case "Thursday": return("Kamis");break;
+			case "Friday": return("Jumat");break;
 		}
 	}
-	public function mes_es($mesen){
-		switch($mesen)
+	public function nameMonthIndo($nameMonth){
+		switch($nameMonth)
 		{      
 			case "January": return(_JAN);break;
 			case "February": return(_FEB);break;
@@ -201,18 +201,33 @@ class Date {
 			return "".$this->diaSemana_es($this->diaSemana()).", ".$this->mes_es($this->mes())." ".$this->day.", ".$this->year;
 		}
 	}
-	public function shortDateHuman() {
+	public function shortDateHuman($db_date='') {
 		/*    Returns a date string like "November 5, 2005".*/
-		return date("F j, Y", $this->timestamp());
+		if(empty($db_date)){
+			return date("F j, Y", $this->timestamp());
+		}
+		else {
+			return date("F j, Y", strtotime($db_date));
+		}
 	}
-	public function longTimeHuman() {
+	public function longTimeHuman($db_date='') {
 		/*Returns a time like "3:32:56 PM". F j of Y, g:i a*/
-		return date("g:i:s A", $this->timestamp());
+		if(empty($db_date)){
+			return date("g:i:s A", $this->timestamp());
+		}
+		else {
+			return date("g:i:s A", strtotime($db_date));
+		}
 		/*return date("F j of Y", $this->timestamp());*/
 	}
-	public function shortTimeHuman() {
+	public function shortTimeHuman($db_date='') {
 		/*Returns a time like "3:32 PM".*/
-		return date("g:i A", $this->timestamp());
+		if(empty($db_date)){
+			return date("g:i A", $this->timestamp());
+		}
+		else {
+			return date("g:i A",strtotime($db_date));
+		}
 	}
 	public function militaryTime() {
 		/*Returns a time like "15:34:24".*/

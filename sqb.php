@@ -4,6 +4,7 @@
  * @since 		1.0.0
  * @author     	(saidqb) Muh Nurul Khomsa
  * @email 		<saidqb@gmail.com>
+ * @website		<saidqb.com>
  * 
  * PHP Version support : PHP 5 >= 5.4.0, PHP 7
  */

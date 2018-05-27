@@ -7,15 +7,15 @@ lib
 ```
 (object) sqb()
 
-ntv
-- url
+NTV
+- Url
 -- protocol()
 -- site_url()
 -- current()
 -- segment($num_segment=NULL)
 -- slug($string)
 
-- currency
+- Currency
 -- rp($angka)
 -- remove($rupiah)
 
@@ -23,7 +23,7 @@ ntv
 -- v($version) ('37','40') default '37'
 --- alert($data = 'text alert', $alert_name = 'success', $btn_close = true)
 
-- date
+- Date
 -- dateTime()
 -- year()
 ```
